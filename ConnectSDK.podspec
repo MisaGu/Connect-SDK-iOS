@@ -31,8 +31,7 @@ Pod::Spec.new do |s|
   s.social_media_url   = "http://twitter.com/ConnectSDK"
   s.platform     = :ios, "7.1"
   s.ios.deployment_target = "7.1"
-  s.source       = { :git => "https://github.com/ConnectSDK/Connect-SDK-iOS.git",
-                     :tag => s.version,
+  s.source       = { :git => "https://github.com/MisaGu/Connect-SDK-iOS.git",
                      :submodules => true }
 
   s.xcconfig = {
@@ -84,13 +83,13 @@ Pod::Spec.new do |s|
                                PREFIX
 
   non_arc_files =
-    "core/Frameworks/asi-http-request/External/Reachability/*.{h,m}",
-    "core/Frameworks/asi-http-request/Classes/*.{h,m}"
+    "Connect-SDK-iOS-Core160/Frameworks/asi-http-request/External/Reachability/*.{h,m}",
+    "Connect-SDK-iOS-Core160/Frameworks/asi-http-request/Classes/*.{h,m}"
 
   s.subspec 'Core' do |sp|
-    sp.source_files  = "ConnectSDKDefaultPlatforms.h", "core/**/*.{h,m}"
-    sp.exclude_files = (non_arc_files.dup << "core/ConnectSDK*Tests/**/*")
-    sp.private_header_files = "core/**/*_Private.h"
+    sp.source_files  = "ConnectSDKDefaultPlatforms.h", "Connect-SDK-iOS-Core160/**/*.{h,m}"
+    sp.exclude_files = (non_arc_files.dup << "Connect-SDK-iOS-Core160/ConnectSDK*Tests/**/*")
+    sp.private_header_files = "Connect-SDK-iOS-Core160/**/*_Private.h"
     sp.requires_arc = true
 
     sp.dependency 'ConnectSDK/no-arc'
@@ -101,21 +100,5 @@ Pod::Spec.new do |s|
     sp.requires_arc = false
     # disable all warnings from asi-http-request
     sp.compiler_flags = '-w'
-  end
-
-  s.subspec 'GoogleCast' do |sp|
-    cast_dir = "modules/google-cast"
-
-    sp.dependency 'ConnectSDK/Core'
-    sp.source_files = "#{cast_dir}/**/*.{h,m}"
-    sp.exclude_files = "#{cast_dir}/*Tests/**/*"
-    sp.private_header_files = "#{cast_dir}/**/*_Private.h"
-
-    cast_version = "2.7.1"
-    sp.dependency "google-cast-sdk", cast_version
-    sp.framework = "GoogleCast"
-    sp.xcconfig = {
-        "FRAMEWORK_SEARCH_PATHS" => "$(PODS_ROOT)/google-cast-sdk/GoogleCastSDK-#{cast_version}-Release",
-    }
   end
 end
